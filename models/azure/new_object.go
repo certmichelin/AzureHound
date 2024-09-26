@@ -20,8 +20,9 @@ package azure
 type NewObject struct {
 	Entity
 
-	Name     string `json:"name,omitempty"`
-	Id       string `json:"tag,omitempty"`
-	Type     string `json:"type,omitempty"`
-	Location string `json:"location,omitempty"`
+	Name       string              `json:"name,omitempty"`
+	Id         string              `json:"tag,omitempty"`
+	Type       string              `json:"type,omitempty"`
+	Location   string              `json:"location,omitempty"`
+	Properties NewObjectProperties `json:"properties,omitempty"`
 }

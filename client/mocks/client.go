@@ -525,5 +525,5 @@ func (m *MockAzureClient) ListAzureNewObjects(arg0 context.Context, arg1 string)
 // ListAzureNewObjects indicates an expected call of ListAzureNewObjects.
 func (mr *MockAzureClientMockRecorder) ListAzureNewObjects(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListAzureNewObjects", reflect.TypeOf((*MockAzureClient)(nil).ListAzureNewObjects), arg0, arg1, arg2)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListAzureNewObjects", reflect.TypeOf((*MockAzureClient)(nil).ListAzureNewObjects), arg0, arg1)
 }
