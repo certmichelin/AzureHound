@@ -47,8 +47,8 @@ func TestListNewObjects(t *testing.T) {
 	mockTenant := azure.Tenant{}
 	mockError := fmt.Errorf("I'm an error")
 	mockClient.EXPECT().TenantInfo().Return(mockTenant).AnyTimes()
-	mockClient.EXPECT().ListAzureNewObjects(gomock.Any(), gomock.Any(), gomock.Any()).Return(mockNewObjectChannel).Times(1)
-	mockClient.EXPECT().ListAzureNewObjects(gomock.Any(), gomock.Any(), gomock.Any()).Return(mockNewObjectChannel2).Times(1)
+	mockClient.EXPECT().ListAzureNewObjects(gomock.Any(), gomock.Any()).Return(mockNewObjectChannel).Times(1)
+	mockClient.EXPECT().ListAzureNewObjects(gomock.Any(), gomock.Any()).Return(mockNewObjectChannel2).Times(1)
 	channel := listNewObjects(ctx, mockClient, mockSubscriptionsChannel)
 
 	go func() {

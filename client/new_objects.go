@@ -26,19 +26,16 @@ import (
 	"github.com/bloodhoundad/azurehound/v2/models/azure"
 )
 
-// ListDomains https://learn.microsoft.com/en-us/graph/api/user-findrooms
-func (s *azureClient) ListAzureNewObjects(ctx context.Context, subscriptionId string, params query.RMParams) <-chan AzureResult[azure.NewObject] {
+// ListNSGs : https://learn.microsoft.com/en-us/rest/api/virtualnetwork/network-security-groups
+func (s *azureClient) ListAzureNewObjects(ctx context.Context, subscriptionId string) <-chan AzureResult[azure.NewObject] {
 	var (
-		out  = make(chan AzureResult[azure.NewObject])
-		path = fmt.Sprintf("/subscriptions/%s/providers/Microsoft.Network/networkSecurityGroups", subscriptionId)
+		out    = make(chan AzureResult[azure.NewObject])
+		path   = fmt.Sprintf("/subscriptions/%s/providers/Microsoft.Network/networkSecurityGroups", subscriptionId)
+		params = query.RMParams{ApiVersion: "2024-03-01"}
 	)
 
-	if params.ApiVersion == "" {
-		params.ApiVersion = "2024-03-01"
-	}
-
 	log.Printf("Listing new objects : %s", path)
-	go getAzureObjectList[azure.NewObject](s.msgraph, ctx, path, params, out)
+	go getAzureObjectList[azure.NewObject](s.resourceManager, ctx, path, params, out)
 
 	return out
 }

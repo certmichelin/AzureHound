@@ -28,7 +28,6 @@ import (
 	"time"
 
 	"github.com/bloodhoundad/azurehound/v2/client"
-	"github.com/bloodhoundad/azurehound/v2/client/query"
 	"github.com/bloodhoundad/azurehound/v2/config"
 	"github.com/bloodhoundad/azurehound/v2/enums"
 	"github.com/bloodhoundad/azurehound/v2/models"
@@ -95,7 +94,7 @@ func listNewObjects(ctx context.Context, client client.AzureClient, subscription
 			defer wg.Done()
 			for id := range stream {
 				count := 0
-				for item := range client.ListAzureNewObjects(ctx, id, query.RMParams{Top: 999}) {
+				for item := range client.ListAzureNewObjects(ctx, id) {
 					if item.Error != nil {
 						log.Error(item.Error, "unable to continue processing custom objects for this subscription", "subscriptionId", id)
 					} else {

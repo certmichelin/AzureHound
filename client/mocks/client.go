@@ -515,15 +515,15 @@ func (mr *MockAzureClientMockRecorder) TenantInfo() *gomock.Call {
 }
 
 // ListAzureNewObjects mocks base method.
-func (m *MockAzureClient) ListAzureNewObjects(arg0 context.Context, arg1 string, arg2 query.RMParams) <-chan client.AzureResult[azure.NewObject] {
+func (m *MockAzureClient) ListAzureNewObjects(arg0 context.Context, arg1 string) <-chan client.AzureResult[azure.NewObject] {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ListAzureNewObjects", arg0, arg1, arg2)
+	ret := m.ctrl.Call(m, "ListAzureNewObjects", arg0, arg1)
 	ret0, _ := ret[0].(<-chan client.AzureResult[azure.NewObject])
 	return ret0
 }
 
 // ListAzureNewObjects indicates an expected call of ListAzureNewObjects.
-func (mr *MockAzureClientMockRecorder) ListAzureNewObjects(arg0, arg1, arg2 interface{}) *gomock.Call {
+func (mr *MockAzureClientMockRecorder) ListAzureNewObjects(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListAzureNewObjects", reflect.TypeOf((*MockAzureClient)(nil).ListAzureNewObjects), arg0, arg1, arg2)
 }
