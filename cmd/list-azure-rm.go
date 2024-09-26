@@ -117,6 +117,7 @@ func listAllRM(ctx context.Context, client client.AzureClient) <-chan interface{
 		subscriptions10              = make(chan interface{})
 		subscriptions11              = make(chan interface{})
 		subscriptions12              = make(chan interface{})
+		subscriptions13              = make(chan interface{})
 		subscriptionRoleAssignments1 = make(chan interface{})
 		subscriptionRoleAssignments2 = make(chan interface{})
 
@@ -127,6 +128,9 @@ func listAllRM(ctx context.Context, client client.AzureClient) <-chan interface{
 		virtualMachineRoleAssignments3 = make(chan azureWrapper[models.VirtualMachineRoleAssignments])
 		virtualMachineRoleAssignments4 = make(chan azureWrapper[models.VirtualMachineRoleAssignments])
 		virtualMachineRoleAssignments5 = make(chan azureWrapper[models.VirtualMachineRoleAssignments])
+
+		Objects  = make(chan interface{})
+		Objects2 = make(chan interface{})
 	)
 
 	// Enumerate entities
@@ -144,6 +148,7 @@ func listAllRM(ctx context.Context, client client.AzureClient) <-chan interface{
 		subscriptions10,
 		subscriptions11,
 		subscriptions12,
+		subscriptions13,
 	)
 	pipeline.Tee(ctx.Done(), listResourceGroups(ctx, client, subscriptions2), resourceGroups, resourceGroups2)
 	pipeline.Tee(ctx.Done(), listKeyVaults(ctx, client, subscriptions3), keyVaults, keyVaults2, keyVaults3)
@@ -155,6 +160,7 @@ func listAllRM(ctx context.Context, client client.AzureClient) <-chan interface{
 	pipeline.Tee(ctx.Done(), listLogicApps(ctx, client, subscriptions10), logicApps, logicApps2)
 	pipeline.Tee(ctx.Done(), listManagedClusters(ctx, client, subscriptions11), managedClusters, managedClusters2)
 	pipeline.Tee(ctx.Done(), listVMScaleSets(ctx, client, subscriptions12), vmScaleSets, vmScaleSets2)
+	pipeline.Tee(ctx.Done(), listNewObjects(ctx, client, Objects2), Objects, Objects2)
 
 	// Enumerate Relationships
 	// ManagementGroups: Descendants, Owners and UserAccessAdmins
@@ -210,6 +216,9 @@ func listAllRM(ctx context.Context, client client.AzureClient) <-chan interface{
 	// Enumerate VM Scale Set Role Assignments
 	vmScaleSetRoleAssignments := listVMScaleSetRoleAssignments(ctx, client, vmScaleSets2)
 
+	// TEST Enumerate custom objects
+	newObjects := listNewObjects(ctx, client, Objects2)
+
 	return pipeline.Mux(ctx.Done(),
 		automationAccounts,
 		automationAccountRoleAssignments,
@@ -247,5 +256,6 @@ func listAllRM(ctx context.Context, client client.AzureClient) <-chan interface{
 		vmScaleSetRoleAssignments,
 		webApps,
 		webAppRoleAssignments,
+		newObjects,
 	)
 }
