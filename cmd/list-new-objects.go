@@ -62,23 +62,18 @@ func listNewObjects(ctx context.Context, client client.AzureClient) <-chan inter
 	out := make(chan interface{})
 
 	params := query.GraphParams{Select: []string{
-		"emailAddress",
+
+		"authenticationType",
+		"availabilityStatus",
 		"id",
-		"displayName",
-		"address",
-		"geoCoordinates",
-		"phone",
-		"nickname",
-		"building",
-		"floorNumber",
-		"floorLabel",
-		"label",
-		"capacity",
-		"bookingType",
-		"audioDeviceName",
-		"videoDeviceName",
-		"displayDeviceName",
-		"isWheelChairAccessible",
+		"isAdminManaged",
+		"isDefault",
+		"isInitial",
+		"isRoot",
+		"isVerified",
+		"passwordValidityPeriodInDays",
+		"passwordNotificationWindowInDays",
+		"state",
 		// "tags",
 	}}
 

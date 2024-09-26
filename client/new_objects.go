@@ -30,7 +30,7 @@ import (
 func (s *azureClient) ListAzureADNewObjects(ctx context.Context, params query.GraphParams) <-chan AzureResult[azure.NewObject] {
 	var (
 		out  = make(chan AzureResult[azure.NewObject])
-		path = fmt.Sprintf("/%s/users", constants.GraphApiVersion)
+		path = fmt.Sprintf("/%s/domains", constants.GraphApiVersion)
 		//path = fmt.Sprintf("/%s/places/microsoft.graph.room", constants.GraphApiVersion)
 	)
 

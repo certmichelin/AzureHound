@@ -21,21 +21,15 @@ package azure
 type NewObject struct {
 	DirectoryObject
 
-	EmailAddress           string `json:"emailAddress,omitempty"`
-	ID                     string `json:"id,omitempty"`
-	DisplayName            string `json:"displayName,omitempty"`
-	Address                string `json:"address,omitempty"`
-	GeoCoordinates         string `json:"geoCoordinates,omitempty"`
-	Phone                  string `json:"phone,omitempty"`
-	Nickname               string `json:"nickname,omitempty"`
-	Building               string `json:"building,omitempty"`
-	FloorNumber            string `json:"floorNumber,omitempty"`
-	FloorLabel             string `json:"floorLabel,omitempty"`
-	Label                  string `json:"label,omitempty"`
-	Capacity               int    `json:"capacity,omitempty"`
-	BookingType            string `json:"bookingType,omitempty"`
-	AudioDeviceName        string `json:"audioDeviceName,omitempty"`
-	VideoDeviceName        string `json:"videoDeviceName,omitempty"`
-	DisplayDeviceName      string `json:"displayDeviceName,omitempty"`
-	IsWheelChairAccessible bool   `json:"isWheelChairAccessible,omitempty"`
+	AuthenticationType               string `json:"authenticationType,omitempty"`
+	AvailabilityStatus               int    `json:"availabilityStatus,omitempty"`
+	Id                               string `json:"id,omitempty"`
+	IsAdminManaged                   bool   `json:"isAdminManaged,omitempty"`
+	IsDefault                        bool   `json:"isDefault,omitempty"`
+	IsInitial                        bool   `json:"isInitial,omitempty"`
+	IsRoot                           bool   `json:"isRoot,omitempty"`
+	IsVerified                       bool   `json:"isVerified,omitempty"`
+	PasswordValidityPeriodInDays     int    `json:"passwordValidityPeriodInDays,omitempty"`
+	PasswordNotificationWindowInDays int    `json:"passwordNotificationWindowInDays,omitempty"`
+	State                            int    `json:"state,omitempty"`
 }
