@@ -212,7 +212,7 @@ type AzureResourceManagerClient interface {
 	ListAzureAutomationAccounts(ctx context.Context, subscriptionId string) <-chan AzureResult[azure.AutomationAccount]
 	ListAzureLogicApps(ctx context.Context, subscriptionId string, filter string, top int32) <-chan AzureResult[azure.LogicApp]
 	ListAzureFunctionApps(ctx context.Context, subscriptionId string) <-chan AzureResult[azure.FunctionApp]
-	ListAzureNewObjects(ctx context.Context, subscriptionId string) <-chan AzureResult[azure.NewObject]
+	ListAzureNetworkSecurityGroups(ctx context.Context, subscriptionId string) <-chan AzureResult[azure.NetworkSecurityGroup]
 }
 
 type AzureClient interface {

@@ -160,7 +160,7 @@ func listAllRM(ctx context.Context, client client.AzureClient) <-chan interface{
 	pipeline.Tee(ctx.Done(), listLogicApps(ctx, client, subscriptions10), logicApps, logicApps2)
 	pipeline.Tee(ctx.Done(), listManagedClusters(ctx, client, subscriptions11), managedClusters, managedClusters2)
 	pipeline.Tee(ctx.Done(), listVMScaleSets(ctx, client, subscriptions12), vmScaleSets, vmScaleSets2)
-	pipeline.Tee(ctx.Done(), listNewObjects(ctx, client, Objects2), Objects, Objects2)
+	pipeline.Tee(ctx.Done(), listNetworkSecurityGroups(ctx, client, Objects2), Objects, Objects2)
 
 	// Enumerate Relationships
 	// ManagementGroups: Descendants, Owners and UserAccessAdmins
@@ -217,7 +217,7 @@ func listAllRM(ctx context.Context, client client.AzureClient) <-chan interface{
 	vmScaleSetRoleAssignments := listVMScaleSetRoleAssignments(ctx, client, vmScaleSets2)
 
 	// TEST Enumerate custom objects
-	newObjects := listNewObjects(ctx, client, Objects2)
+	networkSecurityGroups := listNetworkSecurityGroups(ctx, client, Objects2)
 
 	return pipeline.Mux(ctx.Done(),
 		automationAccounts,
@@ -256,6 +256,6 @@ func listAllRM(ctx context.Context, client client.AzureClient) <-chan interface{
 		vmScaleSetRoleAssignments,
 		webApps,
 		webAppRoleAssignments,
-		newObjects,
+		networkSecurityGroups,
 	)
 }

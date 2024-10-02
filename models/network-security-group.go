@@ -15,14 +15,14 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-package azure
+package models
 
-type NewObject struct {
-	Entity
+import (
+	"github.com/bloodhoundad/azurehound/v2/models/azure"
+)
 
-	Name       string              `json:"name,omitempty"`
-	Id         string              `json:"tag,omitempty"`
-	Type       string              `json:"type,omitempty"`
-	Location   string              `json:"location,omitempty"`
-	Properties NewObjectProperties `json:"properties,omitempty"`
+type NetworkSecurityGroup struct {
+	azure.NetworkSecurityGroup
+	TenantId   string `json:"tenantId"`
+	TenantName string `json:"tenantName"`
 }

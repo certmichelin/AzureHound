@@ -33,7 +33,7 @@ func init() {
 	setupLogger()
 }
 
-func TestListNewObjects(t *testing.T) {
+func TestListNetworkSecurityGroups(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 	ctx := context.Background()
@@ -41,15 +41,15 @@ func TestListNewObjects(t *testing.T) {
 	mockClient := mocks.NewMockAzureClient(ctrl)
 
 	mockSubscriptionsChannel := make(chan interface{})
-	mockNewObjectChannel := make(chan client.AzureResult[azure.NewObject])
-	mockNewObjectChannel2 := make(chan client.AzureResult[azure.NewObject])
+	mockNetworkSecurityGroupChannel := make(chan client.AzureResult[azure.NetworkSecurityGroup])
+	mockNetworkSecurityGroupChannel2 := make(chan client.AzureResult[azure.NetworkSecurityGroup])
 
 	mockTenant := azure.Tenant{}
 	mockError := fmt.Errorf("I'm an error")
 	mockClient.EXPECT().TenantInfo().Return(mockTenant).AnyTimes()
-	mockClient.EXPECT().ListAzureNewObjects(gomock.Any(), gomock.Any()).Return(mockNewObjectChannel).Times(1)
-	mockClient.EXPECT().ListAzureNewObjects(gomock.Any(), gomock.Any()).Return(mockNewObjectChannel2).Times(1)
-	channel := listNewObjects(ctx, mockClient, mockSubscriptionsChannel)
+	mockClient.EXPECT().ListAzureNetworkSecurityGroups(gomock.Any(), gomock.Any()).Return(mockNetworkSecurityGroupChannel).Times(1)
+	mockClient.EXPECT().ListAzureNetworkSecurityGroups(gomock.Any(), gomock.Any()).Return(mockNetworkSecurityGroupChannel2).Times(1)
+	channel := listNetworkSecurityGroups(ctx, mockClient, mockSubscriptionsChannel)
 
 	go func() {
 		defer close(mockSubscriptionsChannel)
@@ -61,20 +61,20 @@ func TestListNewObjects(t *testing.T) {
 		}
 	}()
 	go func() {
-		defer close(mockNewObjectChannel)
-		mockNewObjectChannel <- client.AzureResult[azure.NewObject]{
-			Ok: azure.NewObject{},
+		defer close(mockNetworkSecurityGroupChannel)
+		mockNetworkSecurityGroupChannel <- client.AzureResult[azure.NetworkSecurityGroup]{
+			Ok: azure.NetworkSecurityGroup{},
 		}
-		mockNewObjectChannel <- client.AzureResult[azure.NewObject]{
-			Ok: azure.NewObject{},
+		mockNetworkSecurityGroupChannel <- client.AzureResult[azure.NetworkSecurityGroup]{
+			Ok: azure.NetworkSecurityGroup{},
 		}
 	}()
 	go func() {
-		defer close(mockNewObjectChannel2)
-		mockNewObjectChannel2 <- client.AzureResult[azure.NewObject]{
-			Ok: azure.NewObject{},
+		defer close(mockNetworkSecurityGroupChannel2)
+		mockNetworkSecurityGroupChannel2 <- client.AzureResult[azure.NetworkSecurityGroup]{
+			Ok: azure.NetworkSecurityGroup{},
 		}
-		mockNewObjectChannel2 <- client.AzureResult[azure.NewObject]{
+		mockNetworkSecurityGroupChannel2 <- client.AzureResult[azure.NetworkSecurityGroup]{
 			Error: mockError,
 		}
 	}()
@@ -83,24 +83,24 @@ func TestListNewObjects(t *testing.T) {
 		t.Fatalf("failed to receive from channel")
 	} else if wrapper, ok := result.(AzureWrapper); !ok {
 		t.Errorf("failed type assertion: got %T, want %T", result, AzureWrapper{})
-	} else if _, ok := wrapper.Data.(models.NewObject); !ok {
-		t.Errorf("failed type assertion: got %T, want %T", wrapper.Data, models.NewObject{})
+	} else if _, ok := wrapper.Data.(models.NetworkSecurityGroup); !ok {
+		t.Errorf("failed type assertion: got %T, want %T", wrapper.Data, models.NetworkSecurityGroup{})
 	}
 
 	if result, ok := <-channel; !ok {
 		t.Fatalf("failed to receive from channel")
 	} else if wrapper, ok := result.(AzureWrapper); !ok {
 		t.Errorf("failed type assertion: got %T, want %T", result, AzureWrapper{})
-	} else if _, ok := wrapper.Data.(models.NewObject); !ok {
-		t.Errorf("failed type assertion: got %T, want %T", wrapper.Data, models.NewObject{})
+	} else if _, ok := wrapper.Data.(models.NetworkSecurityGroup); !ok {
+		t.Errorf("failed type assertion: got %T, want %T", wrapper.Data, models.NetworkSecurityGroup{})
 	}
 
 	if result, ok := <-channel; !ok {
 		t.Fatalf("failed to receive from channel")
 	} else if wrapper, ok := result.(AzureWrapper); !ok {
 		t.Errorf("failed type assertion: got %T, want %T", result, AzureWrapper{})
-	} else if _, ok := wrapper.Data.(models.NewObject); !ok {
-		t.Errorf("failed type assertion: got %T, want %T", wrapper.Data, models.NewObject{})
+	} else if _, ok := wrapper.Data.(models.NetworkSecurityGroup); !ok {
+		t.Errorf("failed type assertion: got %T, want %T", wrapper.Data, models.NetworkSecurityGroup{})
 	}
 
 	if _, ok := <-channel; ok {

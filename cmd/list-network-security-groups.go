@@ -37,17 +37,17 @@ import (
 )
 
 func init() {
-	listRootCmd.AddCommand(listNewObjectCmd)
+	listRootCmd.AddCommand(listNetworkSecurityGroupCmd)
 }
 
-var listNewObjectCmd = &cobra.Command{
-	Use:          "new-objects",
+var listNetworkSecurityGroupCmd = &cobra.Command{
+	Use:          "network-security-groups",
 	Long:         "Lists Custom Objects",
-	Run:          listNewObjectCmdImpl,
+	Run:          listNetworkSecurityGroupCmdImpl,
 	SilenceUsage: true,
 }
 
-func listNewObjectCmdImpl(cmd *cobra.Command, _ []string) {
+func listNetworkSecurityGroupCmdImpl(cmd *cobra.Command, _ []string) {
 	ctx, stop := signal.NotifyContext(cmd.Context(), os.Interrupt, os.Kill)
 	defer gracefulShutdown(stop)
 
@@ -55,14 +55,14 @@ func listNewObjectCmdImpl(cmd *cobra.Command, _ []string) {
 	azClient := connectAndCreateClient()
 	log.Info("collecting custom objects...")
 	start := time.Now()
-	stream := listNewObjects(ctx, azClient, listSubscriptions(ctx, azClient))
+	stream := listNetworkSecurityGroups(ctx, azClient, listSubscriptions(ctx, azClient))
 	panicrecovery.HandleBubbledPanic(ctx, stop, log)
 	outputStream(ctx, stream)
 	duration := time.Since(start)
 	log.Info("collection completed", "duration", duration.String())
 }
 
-func listNewObjects(ctx context.Context, client client.AzureClient, subscriptions <-chan interface{}) <-chan interface{} {
+func listNetworkSecurityGroups(ctx context.Context, client client.AzureClient, subscriptions <-chan interface{}) <-chan interface{} {
 	var (
 		out     = make(chan interface{})
 		ids     = make(chan string)
@@ -94,20 +94,20 @@ func listNewObjects(ctx context.Context, client client.AzureClient, subscription
 			defer wg.Done()
 			for id := range stream {
 				count := 0
-				for item := range client.ListAzureNewObjects(ctx, id) {
+				for item := range client.ListAzureNetworkSecurityGroups(ctx, id) {
 					if item.Error != nil {
 						log.Error(item.Error, "unable to continue processing custom objects for this subscription", "subscriptionId", id)
 					} else {
 						// the embedded struct's values override top-level properties so TenantId
 						// needs to be explicitly set.
-						newObject := models.NewObject{
-							NewObject: item.Ok,
+						networkSecurityGroup := models.NetworkSecurityGroup{
+							NetworkSecurityGroup: item.Ok,
 						}
-						log.V(2).Info("found custom object", "newObject", newObject)
+						log.V(2).Info("found custom object", "networkSecurityGroup", networkSecurityGroup)
 						count++
 						if ok := pipeline.SendAny(ctx.Done(), out, AzureWrapper{
-							Kind: enums.KindAZNewObject,
-							Data: newObject,
+							Kind: enums.KindAZNetworkSecurityGroup,
+							Data: networkSecurityGroup,
 						}); !ok {
 							return
 						}

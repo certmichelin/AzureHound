@@ -17,23 +17,23 @@
 
 package azure
 
-type NewObjectProperties struct {
-	ProvisioningState    string                       `json:"provisioningState,omitempty"`
-	ResourceGuid         string                       `json:"resourceGuid,omitempty"`
-	SecurityRules        []NewObjectSecurityRules     `json:"securityRules,omitempty"`
-	DefaultSecurityRules []NewObjectSecurityRules     `json:"defaultSecurityRules,omitempty"`
-	NetworkInterfaces    []NewObjectNetworkInterfaces `json:"networkInterfaces,omitempty"`
+type NetworkSecurityGroupProperties struct {
+	ProvisioningState    string                                  `json:"provisioningState,omitempty"`
+	ResourceGuid         string                                  `json:"resourceGuid,omitempty"`
+	SecurityRules        []NetworkSecurityGroupSecurityRules     `json:"securityRules,omitempty"`
+	DefaultSecurityRules []NetworkSecurityGroupSecurityRules     `json:"defaultSecurityRules,omitempty"`
+	NetworkInterfaces    []NetworkSecurityGroupNetworkInterfaces `json:"networkInterfaces,omitempty"`
 }
 
-type NewObjectSecurityRules struct {
-	SRName       string                          `json:"name,omitempty"`
-	SRId         string                          `json:"id,omitempty"`
-	SREtag       string                          `json:"etag,omitempty"`
-	SRType       string                          `json:"type,omitempty"`
-	SRProperties NewObjectSecurityRuleProperties `json:"properties,omitempty"`
+type NetworkSecurityGroupSecurityRules struct {
+	SRName       string                                     `json:"name,omitempty"`
+	SRId         string                                     `json:"id,omitempty"`
+	SREtag       string                                     `json:"etag,omitempty"`
+	SRType       string                                     `json:"type,omitempty"`
+	SRProperties NetworkSecurityGroupSecurityRuleProperties `json:"properties,omitempty"`
 }
 
-type NewObjectSecurityRuleProperties struct {
+type NetworkSecurityGroupSecurityRuleProperties struct {
 	SRProvisioningState          string   `json:"provisioningState,omitempty"`
 	SRProtocol                   string   `json:"protocol,omitempty"`
 	SRSourcePortRange            string   `json:"sourcePortRange,omitempty"`
@@ -48,6 +48,6 @@ type NewObjectSecurityRuleProperties struct {
 	SRDestinationAddressPrefixes []string `json:"destinationAddressPrefixes,omitempty"`
 }
 
-type NewObjectNetworkInterfaces struct {
+type NetworkSecurityGroupNetworkInterfaces struct {
 	Id string `json:"id,omitempty"`
 }

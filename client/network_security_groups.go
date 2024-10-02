@@ -15,14 +15,27 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-package models
+package client
 
 import (
+	"context"
+	"fmt"
+	"log"
+
+	"github.com/bloodhoundad/azurehound/v2/client/query"
 	"github.com/bloodhoundad/azurehound/v2/models/azure"
 )
 
-type NewObject struct {
-	azure.NewObject
-	TenantId   string `json:"tenantId"`
-	TenantName string `json:"tenantName"`
+// List NSGs : https://learn.microsoft.com/en-us/rest/api/virtualnetwork/network-security-groups
+func (s *azureClient) ListAzureNetworkSecurityGroups(ctx context.Context, subscriptionId string) <-chan AzureResult[azure.NetworkSecurityGroup] {
+	var (
+		out    = make(chan AzureResult[azure.NetworkSecurityGroup])
+		path   = fmt.Sprintf("/subscriptions/%s/providers/Microsoft.Network/networkSecurityGroups", subscriptionId)
+		params = query.RMParams{ApiVersion: "2024-03-01"}
+	)
+
+	log.Printf("Listing network security groups : %s", path)
+	go getAzureObjectList[azure.NetworkSecurityGroup](s.resourceManager, ctx, path, params, out)
+
+	return out
 }
