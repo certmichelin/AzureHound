@@ -18,7 +18,7 @@
 package azure
 
 // Represents an Azure Active Directory user account.
-type NewObject struct {
+type Domain struct {
 	DirectoryObject
 
 	AuthenticationType               string `json:"authenticationType,omitempty"`

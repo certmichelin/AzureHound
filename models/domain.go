@@ -21,8 +21,8 @@ import (
 	"github.com/bloodhoundad/azurehound/v2/models/azure"
 )
 
-type NewObject struct {
-	azure.NewObject
+type Domain struct {
+	azure.Domain
 	TenantId   string `json:"tenantId"`
 	TenantName string `json:"tenantName"`
 }

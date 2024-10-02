@@ -33,32 +33,32 @@ import (
 )
 
 func init() {
-	listRootCmd.AddCommand(listNewObjectsCmd)
+	listRootCmd.AddCommand(listDomainsCmd)
 }
 
-var listNewObjectsCmd = &cobra.Command{
-	Use:          "new-objects",
-	Long:         "Lists Azure Active Directory New Objects",
-	Run:          listNewObjectsCmdImpl,
+var listDomainsCmd = &cobra.Command{
+	Use:          "domains",
+	Long:         "Lists Azure Active Directory Domains",
+	Run:          listDomainsCmdImpl,
 	SilenceUsage: true,
 }
 
-func listNewObjectsCmdImpl(cmd *cobra.Command, _ []string) {
+func listDomainsCmdImpl(cmd *cobra.Command, _ []string) {
 	ctx, stop := signal.NotifyContext(cmd.Context(), os.Interrupt, os.Kill)
 	defer gracefulShutdown(stop)
 
 	log.V(1).Info("testing connections")
 	azClient := connectAndCreateClient()
-	log.Info("collecting azure active directory new objects...")
+	log.Info("collecting azure active directory domains...")
 	start := time.Now()
-	stream := listNewObjects(ctx, azClient)
+	stream := listDomains(ctx, azClient)
 	panicrecovery.HandleBubbledPanic(ctx, stop, log)
 	outputStream(ctx, stream)
 	duration := time.Since(start)
 	log.Info("collection completed", "duration", duration.String())
 }
 
-func listNewObjects(ctx context.Context, client client.AzureClient) <-chan interface{} {
+func listDomains(ctx context.Context, client client.AzureClient) <-chan interface{} {
 	out := make(chan interface{})
 
 	params := query.GraphParams{Select: []string{
@@ -81,27 +81,27 @@ func listNewObjects(ctx context.Context, client client.AzureClient) <-chan inter
 		defer panicrecovery.PanicRecovery()
 		defer close(out)
 		count := 0
-		for item := range client.ListAzureADNewObjects(ctx, params) {
+		for item := range client.ListAzureADDomains(ctx, params) {
 			if item.Error != nil {
-				log.Error(item.Error, "unable to continue processing new object")
+				log.Error(item.Error, "unable to continue processing domain")
 				return
 			} else {
-				log.V(2).Info("found new object", "new-object", item)
+				log.V(2).Info("found domain", "domains", item)
 				count++
-				newobject := models.NewObject{
-					NewObject:  item.Ok,
+				domain := models.Domain{
+					Domain:     item.Ok,
 					TenantId:   client.TenantInfo().TenantId,
 					TenantName: client.TenantInfo().DisplayName,
 				}
 				if ok := pipeline.SendAny(ctx.Done(), out, AzureWrapper{
-					Kind: enums.KindAZNewObject,
-					Data: newobject,
+					Kind: enums.KindAZDomain,
+					Data: domain,
 				}); !ok {
 					return
 				}
 			}
 		}
-		log.Info("finished listing all new objects", "count", count)
+		log.Info("finished listing all domains", "count", count)
 	}()
 
 	return out

@@ -80,5 +80,5 @@ const (
 	KindAZManagedClusterRoleAssignment    Kind = "AZManagedClusterRoleAssignment"
 	KindAZVMScaleSet                      Kind = "AZVMScaleSet"
 	KindAZVMScaleSetRoleAssignment        Kind = "AZVMScaleSetRoleAssignment"
-	KindAZNewObject                       Kind = "AZNewObject"
+	KindAZDomain                       Kind = "AZDomain"
 )

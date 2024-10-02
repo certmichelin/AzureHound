@@ -26,19 +26,18 @@ import (
 	"github.com/bloodhoundad/azurehound/v2/models/azure"
 )
 
-// ListAzureADNewObjects https://learn.microsoft.com/en-us/graph/api/user-list?view=graph-rest-beta
-func (s *azureClient) ListAzureADNewObjects(ctx context.Context, params query.GraphParams) <-chan AzureResult[azure.NewObject] {
+// ListAzureADDomains https://learn.microsoft.com/en-us/graph/api/domain-list
+func (s *azureClient) ListAzureADDomains(ctx context.Context, params query.GraphParams) <-chan AzureResult[azure.Domain] {
 	var (
-		out  = make(chan AzureResult[azure.NewObject])
+		out  = make(chan AzureResult[azure.Domain])
 		path = fmt.Sprintf("/%s/domains", constants.GraphApiVersion)
-		//path = fmt.Sprintf("/%s/places/microsoft.graph.room", constants.GraphApiVersion)
 	)
 
 	if params.Top == 0 {
 		params.Top = 999
 	}
 
-	go getAzureObjectList[azure.NewObject](s.msgraph, ctx, path, params, out)
+	go getAzureObjectList[azure.Domain](s.msgraph, ctx, path, params, out)
 
 	return out
 }

@@ -32,32 +32,32 @@ func init() {
 	setupLogger()
 }
 
-func TestListNewObjects(t *testing.T) {
+func TestListDomains(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 	ctx := context.Background()
 
 	mockClient := mocks.NewMockAzureClient(ctrl)
-	mockChannel := make(chan client.AzureResult[azure.NewObject])
+	mockChannel := make(chan client.AzureResult[azure.Domain])
 	mockTenant := azure.Tenant{}
 	mockError := fmt.Errorf("I'm an error")
 	mockClient.EXPECT().TenantInfo().Return(mockTenant).AnyTimes()
-	mockClient.EXPECT().ListAzureADNewObjects(gomock.Any(), gomock.Any()).Return(mockChannel)
+	mockClient.EXPECT().ListAzureADDomains(gomock.Any(), gomock.Any()).Return(mockChannel)
 
 	go func() {
 		defer close(mockChannel)
-		mockChannel <- client.AzureResult[azure.NewObject]{
-			Ok: azure.NewObject{},
+		mockChannel <- client.AzureResult[azure.Domain]{
+			Ok: azure.Domain{},
 		}
-		mockChannel <- client.AzureResult[azure.NewObject]{
+		mockChannel <- client.AzureResult[azure.Domain]{
 			Error: mockError,
 		}
-		mockChannel <- client.AzureResult[azure.NewObject]{
-			Ok: azure.NewObject{},
+		mockChannel <- client.AzureResult[azure.Domain]{
+			Ok: azure.Domain{},
 		}
 	}()
 
-	channel := listNewObjects(ctx, mockClient)
+	channel := listDomains(ctx, mockClient)
 	result := <-channel
 	if _, ok := result.(AzureWrapper); !ok {
 		t.Errorf("failed type assertion: got %T, want %T", result, AzureWrapper{})

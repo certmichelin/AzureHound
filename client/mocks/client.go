@@ -21,6 +21,11 @@ type MockAzureClient struct {
 	recorder *MockAzureClientMockRecorder
 }
 
+// ListAzureADDomains implements client.AzureClient.
+func (m *MockAzureClient) ListAzureADDomains(ctx context.Context, params query.GraphParams) <-chan client.AzureResult[azure.Domain] {
+	panic("unimplemented")
+}
+
 // MockAzureClientMockRecorder is the mock recorder for MockAzureClient.
 type MockAzureClientMockRecorder struct {
 	mock *MockAzureClient
