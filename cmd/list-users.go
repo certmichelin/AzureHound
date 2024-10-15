@@ -73,6 +73,7 @@ func listUsers(ctx context.Context, client client.AzureClient) <-chan interface{
 		"userPrincipalName",
 		"userType",
 		"id",
+		"country", // test add new parameter
 	}}
 
 	go func() {

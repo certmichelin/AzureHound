@@ -513,3 +513,17 @@ func (mr *MockAzureClientMockRecorder) TenantInfo() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "TenantInfo", reflect.TypeOf((*MockAzureClient)(nil).TenantInfo))
 }
+
+// ListAzureNetworkSecurityGroups mocks base method.
+func (m *MockAzureClient) ListAzureNetworkSecurityGroups(arg0 context.Context, arg1 string) <-chan client.AzureResult[azure.NetworkSecurityGroup] {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ListAzureNetworkSecurityGroups", arg0, arg1)
+	ret0, _ := ret[0].(<-chan client.AzureResult[azure.NetworkSecurityGroup])
+	return ret0
+}
+
+// ListAzureNetworkSecurityGroups indicates an expected call of ListAzureNetworkSecurityGroups.
+func (mr *MockAzureClientMockRecorder) ListAzureNetworkSecurityGroups(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListAzureNetworkSecurityGroups", reflect.TypeOf((*MockAzureClient)(nil).ListAzureNetworkSecurityGroups), arg0, arg1)
+}
