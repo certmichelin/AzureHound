@@ -22,8 +22,8 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/bloodhoundad/azurehound/v2/client/query"
-	"github.com/bloodhoundad/azurehound/v2/models/azure"
+	"github.com/certmichelin/azurehound/v3/client/query"
+	"github.com/certmichelin/azurehound/v3/models/azure"
 )
 
 // List NSGs : https://learn.microsoft.com/en-us/rest/api/virtualnetwork/network-security-groups
