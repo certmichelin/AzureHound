@@ -24,8 +24,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/certmichelin/azurehound/v2/cmd"
-	"github.com/certmichelin/azurehound/v2/constants"
+	"github.com/certmichelin/azurehound/v3/cmd"
+	"github.com/certmichelin/azurehound/v3/constants"
 )
 
 func main() {

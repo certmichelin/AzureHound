@@ -31,9 +31,9 @@ import (
 	"sync"
 	"time"
 
-	"github.com/certmichelin/azurehound/v2/client/config"
-	"github.com/certmichelin/azurehound/v2/client/query"
-	"github.com/certmichelin/azurehound/v2/constants"
+	"github.com/certmichelin/azurehound/v3/client/config"
+	"github.com/certmichelin/azurehound/v3/client/query"
+	"github.com/certmichelin/azurehound/v3/constants"
 )
 
 type RestClient interface {

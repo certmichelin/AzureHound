@@ -21,9 +21,9 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/certmichelin/azurehound/v2/client/query"
-	"github.com/certmichelin/azurehound/v2/constants"
-	"github.com/certmichelin/azurehound/v2/models/azure"
+	"github.com/certmichelin/azurehound/v3/client/query"
+	"github.com/certmichelin/azurehound/v3/constants"
+	"github.com/certmichelin/azurehound/v3/models/azure"
 )
 
 // ListAzureADUsers https://learn.microsoft.com/en-us/graph/api/user-list?view=graph-rest-beta

@@ -24,9 +24,9 @@ import (
 	"runtime"
 	"strings"
 
-	config "github.com/certmichelin/azurehound/v2/config/internal"
-	"github.com/certmichelin/azurehound/v2/constants"
-	"github.com/certmichelin/azurehound/v2/enums"
+	config "github.com/certmichelin/azurehound/v3/config/internal"
+	"github.com/certmichelin/azurehound/v3/constants"
+	"github.com/certmichelin/azurehound/v3/enums"
 )
 
 type Config = config.Config

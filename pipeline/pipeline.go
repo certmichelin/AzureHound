@@ -23,7 +23,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/certmichelin/azurehound/v2/internal"
+	"github.com/certmichelin/azurehound/v3/internal"
 )
 
 type Result[T any] struct {

@@ -17,7 +17,7 @@
 
 package models
 
-import "github.com/certmichelin/azurehound/v2/models/azure"
+import "github.com/certmichelin/azurehound/v3/models/azure"
 
 type VirtualMachineUserAccessAdmin struct {
 	UserAccessAdmin  azure.RoleAssignment `json:"userAccessAdmin"`

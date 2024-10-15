@@ -37,12 +37,12 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/certmichelin/azurehound/v2/client/rest"
-	"github.com/certmichelin/azurehound/v2/config"
-	"github.com/certmichelin/azurehound/v2/constants"
-	"github.com/certmichelin/azurehound/v2/models"
-	"github.com/certmichelin/azurehound/v2/panicrecovery"
-	"github.com/certmichelin/azurehound/v2/pipeline"
+	"github.com/certmichelin/azurehound/v3/client/rest"
+	"github.com/certmichelin/azurehound/v3/config"
+	"github.com/certmichelin/azurehound/v3/constants"
+	"github.com/certmichelin/azurehound/v3/models"
+	"github.com/certmichelin/azurehound/v3/panicrecovery"
+	"github.com/certmichelin/azurehound/v3/pipeline"
 )
 
 const (

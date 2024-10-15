@@ -21,9 +21,9 @@ import (
 	"fmt"
 	"net/url"
 
-	client "github.com/certmichelin/azurehound/v2/client/config"
-	config "github.com/certmichelin/azurehound/v2/config/internal"
-	"github.com/certmichelin/azurehound/v2/constants"
+	client "github.com/certmichelin/azurehound/v3/client/config"
+	config "github.com/certmichelin/azurehound/v3/config/internal"
+	"github.com/certmichelin/azurehound/v3/constants"
 	"github.com/go-logr/logr"
 )
 
