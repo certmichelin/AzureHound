@@ -24,13 +24,13 @@ import (
 	"os/signal"
 	"time"
 
-	"github.com/certmichelin/azurehound/v2/client"
-	"github.com/certmichelin/azurehound/v2/config"
-	"github.com/certmichelin/azurehound/v2/enums"
-	kinds "github.com/certmichelin/azurehound/v2/enums"
-	"github.com/certmichelin/azurehound/v2/models"
-	"github.com/certmichelin/azurehound/v2/panicrecovery"
-	"github.com/certmichelin/azurehound/v2/pipeline"
+	"github.com/certmichelin/azurehound/v3/client"
+	"github.com/certmichelin/azurehound/v3/config"
+	"github.com/certmichelin/azurehound/v3/enums"
+	kinds "github.com/certmichelin/azurehound/v3/enums"
+	"github.com/certmichelin/azurehound/v3/models"
+	"github.com/certmichelin/azurehound/v3/panicrecovery"
+	"github.com/certmichelin/azurehound/v3/pipeline"
 	"github.com/spf13/cobra"
 )
 

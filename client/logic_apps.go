@@ -21,8 +21,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/certmichelin/azurehound/v2/client/query"
-	"github.com/certmichelin/azurehound/v2/models/azure"
+	"github.com/certmichelin/azurehound/v3/client/query"
+	"github.com/certmichelin/azurehound/v3/models/azure"
 )
 
 // ListAzureLogicApps https://learn.microsoft.com/en-us/rest/api/logic/workflows/list-by-subscription?view=rest-logic-2016-06-01

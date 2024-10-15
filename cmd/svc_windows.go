@@ -21,8 +21,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/certmichelin/azurehound/v2/config"
-	"github.com/certmichelin/azurehound/v2/logger"
+	"github.com/certmichelin/azurehound/v3/config"
+	"github.com/certmichelin/azurehound/v3/logger"
 	"github.com/judwhite/go-svc"
 )
 

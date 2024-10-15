@@ -21,10 +21,10 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/certmichelin/azurehound/v2/client/query"
-	"github.com/certmichelin/azurehound/v2/client/rest"
-	"github.com/certmichelin/azurehound/v2/constants"
-	"github.com/certmichelin/azurehound/v2/models/azure"
+	"github.com/certmichelin/azurehound/v3/client/query"
+	"github.com/certmichelin/azurehound/v3/client/rest"
+	"github.com/certmichelin/azurehound/v3/constants"
+	"github.com/certmichelin/azurehound/v3/models/azure"
 )
 
 func (s *azureClient) GetAzureADOrganization(ctx context.Context, selectCols []string) (*azure.Organization, error) {

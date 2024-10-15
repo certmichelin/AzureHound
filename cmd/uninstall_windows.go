@@ -20,7 +20,7 @@ package cmd
 import (
 	"fmt"
 
-	"github.com/certmichelin/azurehound/v2/constants"
+	"github.com/certmichelin/azurehound/v3/constants"
 	"github.com/spf13/cobra"
 	"golang.org/x/sys/windows/svc/eventlog"
 	"golang.org/x/sys/windows/svc/mgr"

@@ -24,8 +24,8 @@ import (
 	"io"
 	"os"
 
-	"github.com/certmichelin/azurehound/v2/config"
-	logger "github.com/certmichelin/azurehound/v2/logger/internal"
+	"github.com/certmichelin/azurehound/v3/config"
+	logger "github.com/certmichelin/azurehound/v3/logger/internal"
 	"github.com/go-logr/logr"
 )
 

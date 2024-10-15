@@ -21,9 +21,9 @@ import (
 	"io"
 	"os"
 
-	"github.com/certmichelin/azurehound/v2/config"
-	"github.com/certmichelin/azurehound/v2/constants"
-	logger "github.com/certmichelin/azurehound/v2/logger/internal"
+	"github.com/certmichelin/azurehound/v3/config"
+	"github.com/certmichelin/azurehound/v3/constants"
+	logger "github.com/certmichelin/azurehound/v3/logger/internal"
 	"github.com/go-logr/logr"
 	"github.com/rs/zerolog"
 	"golang.org/x/sys/windows/svc"

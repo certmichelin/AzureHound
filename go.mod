@@ -1,4 +1,4 @@
-module github.com/certmichelin/azurehound/v2
+module github.com/certmichelin/azurehound/v3
 
 go 1.20
 
