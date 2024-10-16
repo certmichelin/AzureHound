@@ -21,8 +21,8 @@ type NetworkSecurityGroup struct {
 	Entity
 
 	Name       string                         `json:"name,omitempty"`
-	Id         string                         `json:"tag,omitempty"`
 	Type       string                         `json:"type,omitempty"`
 	Location   string                         `json:"location,omitempty"`
 	Properties NetworkSecurityGroupProperties `json:"properties,omitempty"`
+	// Tags       map[string]string              `json:"tags,omitempty"` 		not sure that one is needed
 }
