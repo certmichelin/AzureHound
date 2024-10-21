@@ -513,3 +513,17 @@ func (mr *MockAzureClientMockRecorder) TenantInfo() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "TenantInfo", reflect.TypeOf((*MockAzureClient)(nil).TenantInfo))
 }
+
+// ListAzureO365Groups mocks base method.
+func (m *MockAzureClient) ListAzureADO365Groups(arg0 context.Context, arg1 query.GraphParams) <-chan client.AzureResult[azure.O365Group] {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ListAzureO365Groups", arg0, arg1)
+	ret0, _ := ret[0].(<-chan client.AzureResult[azure.O365Group])
+	return ret0
+}
+
+// ListAzureNewObjects indicates an expected call of ListAzureNewObjects.
+func (mr *MockAzureClientMockRecorder) ListAzureADO365Groups(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListAzureNewObjects", reflect.TypeOf((*MockAzureClient)(nil).ListAzureADO365Groups), arg0, arg1)
+}
