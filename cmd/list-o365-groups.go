@@ -94,7 +94,7 @@ func listO365Groups(ctx context.Context, client client.AzureClient) <-chan inter
 					TenantName: client.TenantInfo().DisplayName,
 				}
 				if ok := pipeline.SendAny(ctx.Done(), out, AzureWrapper{
-					Kind: enums.KindAZO365Groups,
+					Kind: enums.KindAZO365Group,
 					Data: domain,
 				}); !ok {
 					return
