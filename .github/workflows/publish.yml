@@ -103,7 +103,7 @@ jobs:
 
       - name: Verify Signed Artifacts
         run: |
-          for artifact in signed/azurehound*; do
+          for artifact in signed/AzureHoundEnterprise*; do
             osslsigncode verify "$artifact"
           done
 
