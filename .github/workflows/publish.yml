@@ -107,6 +107,12 @@ jobs:
             osslsigncode verify "$artifact"
           done
 
+      - name: Create Signed Artifact Checksums
+        run: |
+          for artifact in signed/AzureHoundEnterprise*; do
+            sha256sum $artifact > ${artifact}.sha256
+          done
+
       - name: Upload Artifacts to S3
         run: |
           aws s3 cp --recursive signed/ s3://${{ secrets.BHE_AWS_BUCKET }}/
