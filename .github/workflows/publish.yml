@@ -29,7 +29,7 @@ jobs:
           cache: true
 
       - name: Build
-        run: 'go build -ldflags="-s -w -X github.com/bloodhoundad/azurehound/v2/constants.Version=${{ env.AZUREHOUND_VERSION }}"'
+        run: 'go build -ldflags="-s -w -X github.com/SpecterOps/AzureHound/v2/constants.Version=${{ env.AZUREHOUND_VERSION }}"'
         env:
           GOOS: ${{ matrix.os }}
           GOARCH: ${{ matrix.arch }}
@@ -42,17 +42,17 @@ jobs:
           path: azurehound*
 
       - name: Zip
-        run: 7z a -tzip -mx9 azurehound-${{ matrix.os }}-${{ matrix.arch }}.zip azurehound*
+        run: 7z a -tzip -mx9 AzureHound_${{ env.AZUREHOUND_VERSION }}_${{ matrix.os }}_${{ matrix.arch }}.zip azurehound*
 
       - name: Compute Checksum
-        run: sha256sum azurehound-${{ matrix.os }}-${{ matrix.arch }}.zip > azurehound-${{ matrix.os }}-${{ matrix.arch }}.zip.sha256
+        run: sha256sum AzureHound_${{ env.AZUREHOUND_VERSION }}_${{ matrix.os }}_${{ matrix.arch }}.zip > AzureHound_${{ env.AZUREHOUND_VERSION }}_${{ matrix.os }}_${{ matrix.arch }}.zip.sha256
 
       - name: Upload Release
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            azurehound-${{ matrix.os }}-${{ matrix.arch }}.zip
-            azurehound-${{ matrix.os }}-${{ matrix.arch }}.zip.sha256
+            AzureHound_${{ env.AZUREHOUND_VERSION }}_${{ matrix.os }}_${{ matrix.arch }}.zip
+            AzureHound_${{ env.AZUREHOUND_VERSION }}_${{ matrix.os }}_${{ matrix.arch }}.zip.sha256
 
   sign:
     runs-on: ubuntu-latest
@@ -90,8 +90,8 @@ jobs:
           trap 'rm $CERT_FILE $KEY_FILE' EXIT
 
           mkdir signed
-          for artifact in unsigned/azurehound-bin-*/azurehound*; do
-            tgt=$(echo "$artifact" | sed -E 's%.*-([^-]*)/azurehound(.*)%azurehound-\1\2%')
+          for artifact in unsigned/azurehound-bin-*/AzureHound*; do
+            tgt=$(echo "$artifact" | sed -E 's%.*/AzureHound_(.*)%AzureHoundEnterprise_\1%')
             osslsigncode sign \
               -certs $CERT_FILE \
               -key $KEY_FILE \
@@ -109,7 +109,7 @@ jobs:
 
       - name: Upload Artifacts to S3
         run: |
-          aws s3 cp --recursive signed/ s3://${{ secrets.BHE_AWS_BUCKET }}/azurehound-signed/${AZUREHOUND_VERSION}/
+          aws s3 cp --recursive signed/ s3://${{ secrets.BHE_AWS_BUCKET }}/
 
   containerize:
     runs-on: ubuntu-latest
