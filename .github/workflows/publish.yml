@@ -91,7 +91,7 @@ jobs:
 
           mkdir signed
           for artifact in unsigned/azurehound-bin-*/AzureHound*; do
-            tgt=$(echo "$artifact" | sed -E 's%.*/AzureHound_(.*)%AzureHoundEnterprise_\1%')
+            tgt=$(echo "$artifact" | sed -E 's%.*-([^-]*)-([^-]*)/azurehound(.*)%AzureHoundEnterprise_\1_\2\3%')
             osslsigncode sign \
               -certs $CERT_FILE \
               -key $KEY_FILE \
@@ -103,19 +103,27 @@ jobs:
 
       - name: Verify Signed Artifacts
         run: |
-          for artifact in signed/AzureHoundEnterprise*; do
+          for artifact in signed/AzureHoundEnterprise_*; do
             osslsigncode verify "$artifact"
           done
 
-      - name: Create Signed Artifact Checksums
+      - name: Zip Exe
         run: |
-          for artifact in signed/AzureHoundEnterprise*; do
+          mkdir zipped
+          for artifact in signed/AzureHoundEnterprise_*.exe; do
+            tgt=$(echo "$artifact" | sed -E 's%signed/(.*)\.exe%zipped/\1\.zip%')
+            7z a -tzip -mx9 $tgt $artifact
+          done
+
+      - name: Create Zip Checksums
+        run: |
+          for artifact in zipped/AzureHoundEnterprise_*.zip; do
             sha256sum $artifact > ${artifact}.sha256
           done
 
       - name: Upload Artifacts to S3
         run: |
-          aws s3 cp --recursive signed/ s3://${{ secrets.BHE_AWS_BUCKET }}/
+          aws s3 cp --recursive zipped/ s3://${{ secrets.BHE_AWS_BUCKET }}/
 
   containerize:
     runs-on: ubuntu-latest
