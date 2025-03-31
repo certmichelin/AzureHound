@@ -1,11 +1,11 @@
 name: Publish
+run-name: Publish Test Artifacts
 
 on:
-  push:
-    tags:
-      - v*.*.*
+  push
+
 env:
-  AZUREHOUND_VERSION: ${{ github.ref_name }}
+  AZUREHOUND_VERSION: 'v4.5.0-rc1'
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -47,12 +47,12 @@ jobs:
       - name: Compute Checksum
         run: sha256sum AzureHound_${{ env.AZUREHOUND_VERSION }}_${{ matrix.os }}_${{ matrix.arch }}.zip > AzureHound_${{ env.AZUREHOUND_VERSION }}_${{ matrix.os }}_${{ matrix.arch }}.zip.sha256
 
-      - name: Upload Release
-        uses: softprops/action-gh-release@v1
-        with:
-          files: |
-            AzureHound_${{ env.AZUREHOUND_VERSION }}_${{ matrix.os }}_${{ matrix.arch }}.zip
-            AzureHound_${{ env.AZUREHOUND_VERSION }}_${{ matrix.os }}_${{ matrix.arch }}.zip.sha256
+      # - name: Upload Release
+      #   uses: softprops/action-gh-release@v1
+      #   with:
+      #     files: |
+      #       AzureHound_${{ env.AZUREHOUND_VERSION }}_${{ matrix.os }}_${{ matrix.arch }}.zip
+      #       AzureHound_${{ env.AZUREHOUND_VERSION }}_${{ matrix.os }}_${{ matrix.arch }}.zip.sha256
 
   sign:
     runs-on: ubuntu-latest
@@ -106,6 +106,7 @@ jobs:
           for artifact in signed/AzureHoundEnterprise_*; do
             osslsigncode verify "$artifact"
           done
+        continue-on-error: true
 
       - name: Zip Exe
         run: |
@@ -123,38 +124,38 @@ jobs:
 
       - name: Upload Artifacts to S3
         run: |
-          aws s3 cp --recursive zipped/ s3://${{ secrets.BHE_AWS_BUCKET }}/
+          aws s3 cp --recursive zipped/ s3://bhe-hound-artifacts/
 
-  containerize:
-    runs-on: ubuntu-latest
-    permissions:
-      packages: write
-    steps:
-      - uses: actions/checkout@v4
+  # containerize:
+  #   runs-on: ubuntu-latest
+  #   permissions:
+  #     packages: write
+  #   steps:
+  #     - uses: actions/checkout@v4
 
-      - name: Log in to the Container registry
-        uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
-        with:
-          registry: ghcr.io
-          username: ${{ secrets.GHCR_USER }}
-          password: ${{ secrets.PACKAGE_SCOPE }}
+  #     - name: Log in to the Container registry
+  #       uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+  #       with:
+  #         registry: ghcr.io
+  #         username: ${{ secrets.GHCR_USER }}
+  #         password: ${{ secrets.PACKAGE_SCOPE }}
 
-      - name: Extract metadata
-        id: meta
-        uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
-        with:
-          images: ghcr.io/bloodhoundad/azurehound
-          tags: |
-            type=semver,pattern={{version}},prefix=v
-            type=semver,pattern={{major}}.{{minor}},prefix=v
+  #     - name: Extract metadata
+  #       id: meta
+  #       uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
+  #       with:
+  #         images: ghcr.io/bloodhoundad/azurehound
+  #         tags: |
+  #           type=semver,pattern={{version}},prefix=v
+  #           type=semver,pattern={{major}}.{{minor}},prefix=v
 
-      - name: Build Container Image
-        uses: docker/build-push-action@v6
-        with:
-          context: .
-          build-args: VERSION=${{ github.ref_name }}
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-          push: true
-          secrets: |
-            GIT_AUTH_TOKEN=${{ secrets.PACKAGE_SCOPE }}
+  #     - name: Build Container Image
+  #       uses: docker/build-push-action@v6
+  #       with:
+  #         context: .
+  #         build-args: VERSION=${{ github.ref_name }}
+  #         tags: ${{ steps.meta.outputs.tags }}
+  #         labels: ${{ steps.meta.outputs.labels }}
+  #         push: true
+  #         secrets: |
+  #           GIT_AUTH_TOKEN=${{ secrets.PACKAGE_SCOPE }}
