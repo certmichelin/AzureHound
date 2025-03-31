@@ -91,7 +91,7 @@ jobs:
 
           mkdir signed
           for artifact in unsigned/azurehound-bin-*/azurehound*; do
-            tgt=$(echo "$artifact" | sed -E 's%.*-([^-]*)-([^-]*)/azurehound(.*)%AzureHoundEnterprise_\1_\2\3%')
+            tgt=$(echo "$artifact" | sed -E 's%.*-([^-]*)-([^-]*)/azurehound(.*)%AzureHoundEnterprise_${{ env.AZUREHOUND_VERSION }}_\1_\2\3%')
             osslsigncode sign \
               -certs $CERT_FILE \
               -key $KEY_FILE \
