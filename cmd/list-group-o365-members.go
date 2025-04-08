@@ -70,7 +70,7 @@ func listGroup365Members(ctx context.Context, client client.AzureClient, groups 
 		streams = pipeline.Demux(ctx.Done(), ids, config.ColStreamCount.Value().(int))
 		wg      sync.WaitGroup
 		params  = query.GraphParams{
-			Select: unique(listGroupMembersSelect),
+			Select: unique(listGroup365MembersSelect),
 			Filter: "",
 			Count:  false,
 			Search: "",
