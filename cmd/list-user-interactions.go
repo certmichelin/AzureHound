@@ -19,6 +19,7 @@ package cmd
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"os"
 	"os/signal"
@@ -112,9 +113,18 @@ func listUsersInteractions(ctx context.Context, client client.AzureClient, users
 					if item.Error != nil {
 						log.Error(item.Error, "unable to continue processing users interactions for this user", "userId", id)
 					} else {
+						var interactionData struct {
+							Name              string `json:"displayName"`
+							UserPrincipalName string `json:"userPrincipalName"`
+						}
+						if err := json.Unmarshal(item.Ok, &interactionData); err != nil {
+							log.Error(err, "failed to unmarshal interaction data", "userId", id)
+							continue
+						}
 						userinteraction := models.UserInteraction{
-							User:   item.Ok,
-							UserId: id,
+							Name:              interactionData.Name,
+							UserPrincipalName: interactionData.UserPrincipalName,
+							UserId:            id,
 						}
 						log.V(2).Info("found interaction", "userinteraction", userinteraction)
 						count++
