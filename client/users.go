@@ -19,6 +19,7 @@ package client
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 
 	"github.com/bloodhoundad/azurehound/v2/client/query"
@@ -38,6 +39,17 @@ func (s *azureClient) ListAzureADUsers(ctx context.Context, params query.GraphPa
 	}
 
 	go getAzureObjectList[azure.User](s.msgraph, ctx, path, params, out)
+
+	return out
+}
+
+func (s *azureClient) ListAzureADUsersInteractions(ctx context.Context, id string, params query.GraphParams) <-chan AzureResult[json.RawMessage] {
+	var (
+		out  = make(chan AzureResult[json.RawMessage])
+		path = fmt.Sprintf("/%s/users/%s/people", constants.GraphApiBetaVersion, id)
+	)
+
+	go getAzureObjectList[json.RawMessage](s.msgraph, ctx, path, params, out)
 
 	return out
 }

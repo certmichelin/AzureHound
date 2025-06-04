@@ -193,6 +193,7 @@ type AzureGraphClient interface {
 	ListAzureDeviceRegisteredOwners(ctx context.Context, objectId string, params query.GraphParams) <-chan AzureResult[json.RawMessage]
 	ListAzureDevices(ctx context.Context, params query.GraphParams) <-chan AzureResult[azure.Device]
 	ListAzureADAppRoleAssignments(ctx context.Context, servicePrincipalId string, params query.GraphParams) <-chan AzureResult[azure.AppRoleAssignment]
+	ListAzureADUsersInteractions(ctx context.Context, id string, params query.GraphParams) <-chan AzureResult[json.RawMessage]
 }
 
 type AzureResourceManagerClient interface {
