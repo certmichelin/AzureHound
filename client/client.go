@@ -183,6 +183,7 @@ type AzureGraphClient interface {
 	ListAzureADAppOwners(ctx context.Context, objectId string, params query.GraphParams) <-chan AzureResult[json.RawMessage]
 	ListAzureADApps(ctx context.Context, params query.GraphParams) <-chan AzureResult[azure.Application]
 	ListAzureADUsers(ctx context.Context, params query.GraphParams) <-chan AzureResult[azure.User]
+	ListAzureADMembersOfGroup(ctx context.Context, params query.GraphParams, groupID string) <-chan AzureResult[azure.User]
 	ListAzureADRoleAssignments(ctx context.Context, params query.GraphParams) <-chan AzureResult[azure.UnifiedRoleAssignment]
 	ListAzureADRoles(ctx context.Context, params query.GraphParams) <-chan AzureResult[azure.Role]
 	ListAzureADServicePrincipalOwners(ctx context.Context, objectId string, params query.GraphParams) <-chan AzureResult[json.RawMessage]

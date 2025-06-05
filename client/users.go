@@ -41,3 +41,19 @@ func (s *azureClient) ListAzureADUsers(ctx context.Context, params query.GraphPa
 
 	return out
 }
+
+// ListAzureADMembersOfGroup https://learn.microsoft.com/en-us/graph/api/group-list-members?view=graph-rest-beta
+func (s *azureClient) ListAzureADMembersOfGroup(ctx context.Context, params query.GraphParams, groupID string) <-chan AzureResult[azure.User] {
+	var (
+		out  = make(chan AzureResult[azure.User])
+		path = fmt.Sprintf("/%s/groups/%s/members", constants.GraphApiVersion, groupID)
+	)
+
+	if params.Top == 0 {
+		params.Top = 999
+	}
+
+	go getAzureObjectList[azure.User](s.msgraph, ctx, path, params, out)
+
+	return out
+}
