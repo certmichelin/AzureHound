@@ -179,6 +179,7 @@ type AzureGraphClient interface {
 
 	ListAzureADGroups(ctx context.Context, params query.GraphParams) <-chan AzureResult[azure.Group]
 	ListAzureADGroupMembers(ctx context.Context, objectId string, params query.GraphParams) <-chan AzureResult[json.RawMessage]
+	ListAzureADGroupsOfMembers(ctx context.Context, objectId string, params query.GraphParams) <-chan AzureResult[azure.Group]
 	ListAzureADGroupOwners(ctx context.Context, objectId string, params query.GraphParams) <-chan AzureResult[json.RawMessage]
 	ListAzureADAppOwners(ctx context.Context, objectId string, params query.GraphParams) <-chan AzureResult[json.RawMessage]
 	ListAzureADApps(ctx context.Context, params query.GraphParams) <-chan AzureResult[azure.Application]

@@ -21,6 +21,11 @@ type MockAzureClient struct {
 	recorder *MockAzureClientMockRecorder
 }
 
+// ListAzureADGroupsOfMembers implements client.AzureClient.
+func (m *MockAzureClient) ListAzureADGroupsOfMembers(ctx context.Context, objectId string, params query.GraphParams) <-chan client.AzureResult[azure.Group] {
+	panic("unimplemented")
+}
+
 // ListAzureADMembersOfGroup implements client.AzureClient.
 func (m *MockAzureClient) ListAzureADMembersOfGroup(ctx context.Context, params query.GraphParams, groupID string) <-chan client.AzureResult[azure.User] {
 	panic("unimplemented")
