@@ -35,16 +35,16 @@ import (
 var groupID string
 
 func init() {
-	listMemberOfGroupCmd.Flags().StringVarP(&groupID, "group-id", "g", "", "ID du groupe cible")
+	listMemberOfGroupCmd.Flags().StringVarP(&groupID, "group-id", "g", "", "ID of the group to list members of")
 	listMemberOfGroupCmd.MarkFlagRequired("group-id")
 	listRootCmd.AddCommand(listMemberOfGroupCmd)
 }
 
 var listMemberOfGroupCmd = &cobra.Command{
 	Use:          "members-of-group",
-	Long:         "Lists Azure Active Members of a group",
+	Long:         "Lists Azure Active Members of a group for a specified group ID. Useful for users with little to no permissions (e.g., Guest users).",
 	Run:          listMembersOfGroupCmdImpl,
-	SilenceUsage: true,
+	SilenceUsage: false,
 }
 
 func listMembersOfGroupCmdImpl(cmd *cobra.Command, _ []string) {

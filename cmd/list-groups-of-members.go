@@ -20,16 +20,15 @@ import (
 
 func init() {
 	listRootCmd.AddCommand(listGroupsOfMemberCmd)
-	listGroupsOfMemberCmd.Flags().StringVarP(&groupID, "group-id", "g", "", "ID du groupe cible")
+	listGroupsOfMemberCmd.Flags().StringVarP(&groupID, "group-id", "g", "", "ID of the initial group to list members of")
 	listGroupsOfMemberCmd.MarkFlagRequired("group-id")
-	//listGroupsOfMemberCmd.Flags().StringSliceVar(&listGroupsOfMemberSelect, "select", []string{"id,displayName,createdDateTime"}, `Select properties to include. Use "" for Azure default properties. Azurehound default is "id,displayName,createdDateTime" if flag is not supplied.`)
 }
 
 var listGroupsOfMemberCmd = &cobra.Command{
 	Use:          "groups-of-member",
-	Long:         "Lists Azure AD Group Members",
+	Long:         "Lists Azure AD Group Members for a specified group ID. Useful for users with little to no permissions (e.g., Guest users).",
 	Run:          listGroupsOfMemberCmdImpl,
-	SilenceUsage: true,
+	SilenceUsage: false,
 }
 
 var listGroupsOfMemberSelect []string
