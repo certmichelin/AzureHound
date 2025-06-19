@@ -37,6 +37,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Extract metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: deddobifu/azurehound
       - name: Build Container Image
         uses: docker/build-push-action@v6
         with:
@@ -45,8 +50,6 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           push: ${{ ! startsWith(github.event_name, 'pull_request') }}
-          secrets: |
-            GIT_AUTH_TOKEN=${{ secrets.PACKAGE_SCOPE }}
 
   build:
     runs-on: ubuntu-latest
