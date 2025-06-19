@@ -55,6 +55,9 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       packages: write
+      contents: read
+      attestations: write
+      id-token: write
     steps:
       - uses: actions/checkout@v4
 
@@ -71,11 +74,11 @@ jobs:
           images: deddobifu/azurehound
 
       - name: Build Container Image
+        id: push
         uses: docker/build-push-action@v6
         with:
           context: .
           file: ./Dockerfile
-          build-args: VERSION=${{ github.ref_name }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           push: true
