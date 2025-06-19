@@ -24,33 +24,6 @@ jobs:
 
       - name: Test
         run: go test ./...
-
-  containerize:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
-      id-token: write
-    defaults:
-      run:
-        shell: bash
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Extract metadata
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: deddobifu/azurehound
-      - name: Build Container Image
-        uses: docker/build-push-action@v6
-        with:
-          context: .
-          build-args: VERSION=v0.0.0-rolling+${{ github.sha }}
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-          push: ${{ ! startsWith(github.event_name, 'pull_request') }}
-
   build:
     runs-on: ubuntu-latest
     defaults:
