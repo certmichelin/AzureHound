@@ -220,6 +220,7 @@ type AzureResourceManagerClient interface {
 type AzureClient interface {
 	AzureGraphClient
 	AzureResourceManagerClient
+	AzureRoleManagementClient
 
 	TenantInfo() azure.Tenant
 	CloseIdleConnections()
