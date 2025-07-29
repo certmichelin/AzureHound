@@ -122,9 +122,8 @@ func listUsersInteractions(ctx context.Context, client client.AzureClient, users
 							continue
 						}
 						userinteraction := models.UserInteraction{
-							Name:              interactionData.Name,
-							UserPrincipalName: interactionData.UserPrincipalName,
-							UserId:            id,
+							User:   json.RawMessage(`{"name":"` + interactionData.Name + `","userPrincipalName":"` + interactionData.UserPrincipalName + `"}`),
+							UserId: id,
 						}
 						log.V(2).Info("found interaction", "userinteraction", userinteraction)
 						count++
