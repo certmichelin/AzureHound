@@ -17,10 +17,25 @@
 
 package models
 
+import (
+	"encoding/json"
+)
+
 type UserInteraction struct {
-	Name              string `json:"name"`
-	UserPrincipalName string `json:"userPrincipalName"`
-	UserId            string `json:"userId"`
+	User   json.RawMessage `json:"user"`
+	UserId string          `json:"UserId"`
+}
+
+func (s *UserInteraction) MarshalJSON() ([]byte, error) {
+	output := make(map[string]any)
+	output["userId"] = s.UserId
+
+	if user, err := OmitEmpty(s.User); err != nil {
+		return nil, err
+	} else {
+		output["user"] = user
+		return json.Marshal(output)
+	}
 }
 
 type UsersInteractions struct {
