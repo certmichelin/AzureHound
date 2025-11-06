@@ -77,6 +77,9 @@ func listAllAD(ctx context.Context, client client.AzureClient) <-chan interface{
 		roles  = make(chan interface{})
 		roles2 = make(chan interface{})
 
+		users  = make(chan interface{})
+		users2 = make(chan interface{})
+
 		servicePrincipals  = make(chan interface{})
 		servicePrincipals2 = make(chan interface{})
 		servicePrincipals3 = make(chan interface{})
@@ -111,7 +114,8 @@ func listAllAD(ctx context.Context, client client.AzureClient) <-chan interface{
 	pipeline.Tee(ctx.Done(), listTenants(ctx, client), tenants)
 
 	// Enumerate Users
-	users := listUsers(ctx, client)
+	pipeline.Tee(ctx.Done(), listUsers(ctx, client), users, users2)
+	userInteractions := listUsersInteractions(ctx, client, users2)
 
 	// Enumerate Roles and RoleAssignments
 	pipeline.Tee(ctx.Done(), listRoles(ctx, client), roles, roles2)
@@ -144,6 +148,7 @@ func listAllAD(ctx context.Context, client client.AzureClient) <-chan interface{
 		servicePrincipals,
 		tenants,
 		users,
+		userInteractions,
 		unifiedRoleEligibilitySchedules,
 		unifiedRoleManagementPolicyAssignments,
 	)
